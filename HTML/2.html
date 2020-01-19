@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>伪类</title>
+    <style>
+        p:after{
+            content: '--after';
+        }
+
+        p:before{
+            content: 'before--';
+        }
+
+        .div{
+            width: 50px;
+            height: 50px;
+            border: 1px solid red;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<div class="div"></div>
+<div class="div"></div>
+<div class="div" id="d"></div>
+<div style="clear: both"></div>
+
+
+<p>1</p>
+<p>5</p>
+<p>6</p>
+<p>7</p>
+</body>
+</html>
