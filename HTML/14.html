@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>外边距塌陷</title>
+</head>
+<body>
+<p>外边距塌陷，也叫外边距合并。只有上下边距才会发生塌陷，左右边距不会</p>
+
+<fieldset>
+    <legend>父元素仅有上外边距、第一个子元素有上外边距</legend>
+    <div style="margin-top: 20px;">
+        <div style="margin-top: 10px">子元素</div>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>父元素仅有下外边距、最后一个子元素有上外边距</legend>
+    <div style="margin-bottom: 20px;">
+        <div style="margin-bottom: 10px">子元素</div>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>两个相邻的兄弟元素，分别定义下外边距和上外边距</legend>
+    <div style="margin-bottom: 20px;">兄弟1</div>
+    <div style="margin-top: 10px">兄弟2</div>
+</fieldset>
+
+<fieldset>
+    <legend>一个空元素，只定义了上下外边距</legend>
+    <div style="margin-bottom: 20px;margin-top: 10px;"></div>
+    <div>Test</div>
+</fieldset>
+
+<p>在最后一个空元素中，不能让空div单独存在，不然没有外边距塌陷效果，详情可见<a href="https://segmentfault.com/q/1010000004407143">空元素外边距叠加问题</a></p>
+
+</body>
+</html>
