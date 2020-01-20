@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>测试Web储存</title>
+</head>
+<body>
+    <button value="点击测试" onclick="fn()">点击测试</button>
+    <p id="temp"></p>
+<script>
+    let fn =()=>{
+        let p  =document.getElementById('temp');
+        p.innerText=
+            `
+            localStorage中的local值是：${localStorage.getItem('local')};
+            sessionStorage中的session值是：${sessionStorage.getItem('session')};
+        `
+    }
+</script>
+</body>
+</html>
