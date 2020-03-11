@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="div">
+    <p style="color: red">123</p>
+</div>
+<div id="newDiv1">
+
+</div>
+<div id="newDiv2">
+
+</div>
+</body>
+<script>
+    (function () {
+        var x;
+        var foo;
+        x = foo();
+        foo = function foo() {
+            return "foobar"
+        };
+        return x;
+
+    })();
+</script>
+</html>

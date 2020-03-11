@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>弹性布局FLex--圣杯实例</title>
+    <style>
+        html{
+            height: 100%;
+        }
+        body{
+            height: 100%;
+        }
+        div{
+            border: 1px solid red;
+
+        }
+        #box{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+            height: 100%;
+        }
+        #body{
+            flex-grow: 1;
+            display: flex;
+            justify-content: space-between;
+        }
+        #middle{
+            flex-grow: 1;
+        }
+        #left,#right{
+            min-width: 23%;
+        }
+        #head,#foot{
+            min-height: 15%;
+        }
+        #left,#right,#head,#foot,#middle{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <div id="head">头</div>
+    <div id="body">
+        <div id="left">左</div>
+        <div id="middle">中</div>
+        <div id="right">右</div>
+    </div>
+    <div id="foot">底座</div>
+</div>
+</body>
+</html>

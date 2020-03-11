@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            box-sizing: border-box;
+            width: 200px;
+            border: 1px solid rgba(255, 8, 28, 0.8);
+        }
+        #father{
+            position:relative;
+        }
+        #son1{
+            height: 100px;
+        }
+        #son2{
+            position: absolute;
+            top: 100px;
+            left: 0;
+        }
+
+    </style>
+</head>
+<body>
+<p>41. 有一个高度自适应的div，里面有两个div，一个高度100px，希望另一个填满剩下的高度</p>
+<div id="father">
+    <div id="son1">1</div>
+    <div id="son2">
+        <input type="text">
+        <input type="text">
+        <input type="text">
+        <input type="text">
+        <input type="text">
+    </div>
+</div>
+</body>
+</html>
