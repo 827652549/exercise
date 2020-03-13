@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>画直线</title>
+</head>
+<body>
+<div>
+    <select id="strokeStyleSelect" style="margin-right: 20px">
+        <option value="red">red</option>
+        <option value="green">green</option>
+        <option value="blue">blue</option>
+        <option value="orange">orange</option>
+    </select>
+    是否在当前路径<span id="isCurPath"></span>
+    <label><input type="radio" name="type" value="hand" onchange="types(this.value)">手型选中</label>
+    <label><input type="radio" name="type" value="white" onchange="types(this.value)">写字</label>
+    <label><input type="radio" name="type" value="line" onchange="types(this.value)">线条</label>
+    <label><input type="radio" name="type" value="rect" onchange="types(this.value)">矩形</label>
+    <label><input type="radio" name="type" value="circle" onchange="types(this.value)">圆形</label>
+    <label><input type="radio" name="type" value="eraser" onchange="types(this.value)">橡皮擦</label>
+</div>
+<canvas id="myCanvas" width="800" height="400" style="border:1px solid #d3d3d3;">
+    您的浏览器不支持 HTML5 canvas 标签。
+</canvas>
+
+<script src="../lib/jquery.min.js"></script>
+<script>
+    var canvas = document.getElementById('myCanvas'),
+        context = canvas.getContext('2d'),
+        strokeStyleSelect = document.getElementById('strokeStyleSelect'),
+        dragging = false,
+        rectangle = true,
+        type = '',
+        drawingPanleImageData, // 绘画面板的 ImageData 对象
+        mousedown = {}, //鼠标按下时刻的对象
+        rubberbandRect = {}, //橡皮筋矩形对象
+        lastX = 0,
+        lastY = 0,
+        eraserWidth = 30,
+        ERASER_LINE_WIDTH = 1,
+        ERASER_STROKE_STYLE = 'rgb(0,0,255)';
+
+    // 坐标转化为canvas坐标
+    function windowToCanvas(x, y) {
+        //返回元素的大小以及位置
+        var bbox = canvas.getBoundingClientRect();
+        return {
+            x: x - bbox.left * (canvas.width / bbox.width),
+            y: y - bbox.top * (canvas.height / bbox.height)
+        }
+    }
+
+    // 切换画笔
+    function switchBrush(loc) {
+        if (type === 'rect') {
+            drawRectangle(loc);
+        } else if (type === 'line') {
+            drawLine(loc);
+        } else if (type === 'circle') {
+            drawCircle(loc)
+        } else if (type === 'white') {
+            drawText(loc)
+        } else if (type === 'eraser') {
+            eraseLast();
+            drawEraser(loc);
+        }
+    }
+
+    // 写字
+    function drawText(loc) {
+        context.lineTco(loc.x, loc.y)
+        context.stroke()
+        context.restore();
+    }
+
+    // 画圆
+    function drawCircle(loc) {
+        rubberbandRect.width = Math.abs(loc.x - mousedown.x);
+        rubberbandRect.height = Math.abs(loc.y - mousedown.y);
+        var radius;
+
+        if (mousedown.y === loc.y) {
+            radius = Math.abs(loc.x - mousedown.x);
+        } else {
+            //反正切函数
+            radius = Math.sqrt(Math.pow(rubberbandRect.height, 2) + Math.pow(rubberbandRect.width, 2));
+        }
+
+        context.beginPath();
+        context.arc(mousedown.x, mousedown.y, radius, 0, Math.PI * 2, false);
+        context.stroke();
+    }
+
+    // 画线
+    function drawLine(loc) {
+        context.save();
+        context.beginPath();
+        context.moveTo(mousedown.x, mousedown.y);
+        context.lineTo(loc.x, loc.y);
+        context.stroke();
+        context.restore();
+    }
+
+    // 画矩形
+    function drawRectangle(loc) {
+        rubberbandRect.width = Math.abs(loc.x - mousedown.x);
+        rubberbandRect.height = Math.abs(loc.y - mousedown.y);
+
+        //从左往右拉，和从右往左拉的两种情况。主要是判断左边的位置
+        //因为从左往右拉的时候，左边x坐标不变
+        //从右往左拉的时候，左边线的x坐标需要跟着鼠标移动
+
+        rubberbandRect.left = loc.x > mousedown.x ? mousedown.x : loc.x
+        rubberbandRect.top = loc.y > mousedown.y ? mousedown.y : loc.y
+
+        context.save();
+        context.beginPath();
+        context.rect(rubberbandRect.left, rubberbandRect.top, rubberbandRect.width, rubberbandRect.height);
+        context.stroke();
+        context.restore();
+    }
+
+    // Eraser........................................................
+    // 绘制橡皮擦
+    function setDrawPathForEraser(loc) {
+        context.beginPath();
+        context.rect(loc.x - eraserWidth / 2,
+            loc.y - eraserWidth / 2,
+            eraserWidth, eraserWidth);
+        context.clip();
+    }
+
+    // 绘制橡皮擦的擦除路径
+    function setErasePathForEraser() {
+        context.beginPath();
+        context.rect(lastX - eraserWidth / 2 - ERASER_LINE_WIDTH,
+            lastY - eraserWidth / 2 - ERASER_LINE_WIDTH,
+            eraserWidth + ERASER_LINE_WIDTH * 2,
+            eraserWidth + ERASER_LINE_WIDTH * 2);
+
+        context.clip();
+    }
+
+    function eraseLast() {
+        context.save();
+        setErasePathForEraser();
+        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+        context.restore();
+    }
+
+    function drawEraser(loc) {
+        context.save();
+        context.lineWidth = ERASER_LINE_WIDTH;
+        context.strokeStyle = ERASER_STROKE_STYLE;
+        setDrawPathForEraser(loc);
+        context.stroke();
+        context.restore();
+    }
+
+    //保存和恢复绘图面板
+    function saveDrawingPanle() {
+        drawingPanleImageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    }
+
+    function restoreDrawingPanle() {
+        context.putImageData(drawingPanleImageData, 0, 0);
+    }
+
+    // 鼠标按下的时候，记录坐标，并设置为拖拽状态
+    canvas.onmousedown = function (e) {
+        var loc = windowToCanvas(e.clientX, e.clientY);
+        e.preventDefault();
+        if (type !== 'eraser') {
+            saveDrawingPanle();
+        }
+        if (type === 'white') {
+            context.save()
+            context.beginPath();
+            context.moveTo(loc.x, loc.y)
+        }
+        mousedown.x = loc.x;
+        mousedown.y = loc.y;
+        lastX = loc.x;
+        lastY = loc.y;
+        dragging = true;
+    }
+
+    //（鼠标按下之后）鼠标移动的时候
+    canvas.onmousemove = function (e) {
+        var loc = windowToCanvas(e.clientX, e.clientY);
+        if (dragging) {
+            e.preventDefault();
+            if (type !== 'eraser') {
+                restoreDrawingPanle();
+            }
+            switchBrush(loc);
+            lastX = loc.x;
+            lastY = loc.y;
+        } else {
+            //鼠标经过的时候是否需要变小手
+            if (context.isPointInPath(loc.x, loc.y)) {
+                //设置光标状态
+                canvas.style.cursor = 'pointer';
+            } else {
+                canvas.style.cursor = 'default';
+
+            }
+        }
+    }
+
+    // 当鼠标松开时 (拖拽完成后)
+    canvas.onmouseup = function (e) {
+        var loc = windowToCanvas(e.clientX, e.clientY);
+        if (type === 'eraser') {
+            eraseLast();
+        } else {
+            restoreDrawingPanle();
+            switchBrush(loc);
+        }
+        dragging = false;
+    };
+
+    strokeStyleSelect.onchange = function () {
+        context.strokeStyle = strokeStyleSelect.value;
+    };
+
+
+    function types(val) {
+        type = val;
+        console.log(type)
+    }
+
+
+    context.strokeStyle = strokeStyleSelect.value;
+</script>
+</body>
+</html>
