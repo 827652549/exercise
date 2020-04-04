@@ -1,0 +1,30 @@
+{
+  "name": "give-me-offers",
+  "version": "1.0.0",
+  "description": "复习前端知识点专用栏目",
+  "main": "1.js",
+  "dependencies": {
+    "girlfriend": "^0.0.1",
+    "junking": "^1.1.0",
+    "node-cli-mydemo": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/827652549/exercise.git"
+  },
+  "keywords": [
+    "求职",
+    "备战",
+    "前端"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/827652549/exercise/issues"
+  },
+  "homepage": "https://github.com/827652549/exercise#readme"
+}
