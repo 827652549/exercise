@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas width="300" height="600" id="canvas"></canvas>
+</body>
+<script>
+let canvas = document.getElementById('canvas');
+let context = canvas.getContext('2d');
+
+context.beginPath();
+context.strokeStyle = 'lightgray';
+context.strokeRect(96,100,8,400);
+
+for (let i = 100; i > 0  ; i = i-3) {
+    context.beginPath();
+    context.arc(100,100,i,0,360);
+    //rgba直接生成的棒棒糖颜色会很丑，你可以将这段代码注释看效果
+    // let color = `rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255})`;
+
+    //通过hsl颜色表示法，生成"艳"一点的颜色
+    let color = `hsl(${Math.random()*360},80%,60%)`;
+    context.strokeStyle = color;
+    context.fillStyle = color;
+    context.stroke();
+    context.fill();
+}
+
+
+
+</script>
+</html>
