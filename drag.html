@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            width: 100px;
+            height: 100px;
+            position: absolute;
+        }
+        #red{
+            background-color: red;
+            top: 400px;
+            left: 500px;
+        }
+        #green{
+            background-color: green;
+            top: 200px;
+            left: 800px;
+        }
+    </style>
+</head>
+<body>
+<!--在页面中写一个红色正方形，实现红色正方形拖拽到页面的任意位置，随鼠标一起动，页面中有另一个绿色正方形，当鼠标拖动红色正方形移动到绿色正方形时，绿色正方形变蓝色-->
+
+<div id="red" ></div>
+<div id="green" style="top: 200px;left: 800px"></div>
+</body>
+<script>
+
+    window.onload = function(){
+      let redDiv = document.getElementById('red');
+      let greenDiv = document.getElementById('green');
+      let isDrag = false
+
+      redDiv.style.top = '100px';
+      console.log(redDiv.offsetLeft);
+      console.log(redDiv.offsetTop);
+
+
+
+      // redDiv.onmousedown = function(ev){
+      //   isDrag = true
+      // }
+      //
+      // redDiv.onmouseup = function(ev){
+      //   isDrag = false
+      // }
+      //
+      // window.onmousemove = function (ev) {
+      //
+      //   // console.log(ev.x,ev.y)
+      //   // console.log(redDiv.style)
+      //   if (isDrag){
+      //
+      //     let detlaX = ev.x - parseInt(redDiv.style.left)
+      //     let detlaY = ev.y - parseInt(redDiv.style.top)
+      //
+      //     console.log('AAA:',ev.x,ev.y)
+      //     console.log('BBB:',redDiv.style.left,redDiv.style.top)
+      //     console.log(detlaX,detlaY)
+      //     redDiv.style.left = (ev.x+detlaX)+'px'
+      //     redDiv.style.top = (ev.y+detlaY)+'px'
+      //     console.log(redDiv.style.left,redDiv.style.top)
+      //
+      //
+      //     if ((ev.x+100)>800&&(ev.y+100)>200){
+      //
+      //       greenDiv.style.backgroundColor = 'blue'
+      //     }
+      //   }
+      //
+      // }
+    }
+
+
+</script>
+</html>

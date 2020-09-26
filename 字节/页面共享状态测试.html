@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+
+<script>
+    // addEventListener('storage',function (event) {
+    //   console.log(event)
+    //   console.log(localStorage.getItem('name'))
+    // })
+    window.onload = function () {
+      setInterval(()=>{
+        console.log(Cookies.get('p1'))
+      },1000)
+    }
+</script>
+</html>

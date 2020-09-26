@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .shan{
+            width: 0;
+            height: 0;
+            box-sizing: content-box;
+
+            border:40px solid;
+            border-color: #1890ff transparent transparent transparent;
+
+            border-radius: 40px;
+            transform: rotate(45deg);
+        }
+        .bfc-test{
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            border: 1px solid black;
+            overflow: hidden;
+        }
+        .box{
+            width: 800px;
+            height: 300px;
+            border: #1890ff 1px solid;
+            writing-mode: vertical-lr;
+        }
+        .box>div{
+            background-color: #ff5a34;
+            width: 30px;
+            height: 30px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="shan"></div>
+    <div class="bfc-test"></div>
+    <div class="bfc-test"></div>
+    <div class="box">
+        <div>A1</div>
+        <div>B2</div>
+        <div>C3</div>
+    </div>
+</body>
+</html>

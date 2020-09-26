@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body{
+            height: 100%;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        input{
+            width: 500px;
+            height: 200px;
+        }
+        #show > div:hover{
+            background-color: #1890ff;
+        }
+
+        #show{
+            width: 400px;
+            height: 300px;
+        }
+
+    </style>
+</head>
+<body>
+<input type="text" id="ttt" value="百度">
+<div id="show">
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+    <div>1</div>
+
+
+</div>
+
+<div id="s1">s1
+    <div id="s2">s2</div>
+</div>
+
+</body>
+<script>
+    let input =  document.getElementById('ttt')
+    input.addEventListener('click',function (ev) {
+      ev.stopPropagation()
+      console.log(ev)
+    })
+
+    document.body.addEventListener('click',function (ev) {
+      console.log(ev,'body')
+    })
+</script>
+<script>
+  s1.addEventListener("click",function(e){
+    console.log("s1 冒泡事件");
+  },false);
+  s2.addEventListener("click",function(e){
+    console.log("s2 捕获事件");
+  },true);
+  s2.addEventListener("click",function(e){
+    console.log("s2 冒泡事件");
+  },false);
+
+  s1.addEventListener("click",function(e){
+    console.log("s1 捕获事件");
+  },true);
+
+
+</script>
+</html>

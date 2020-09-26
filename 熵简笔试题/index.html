@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            position: fixed;
+            width: 100%;
+            height: 50px;
+            background-color: #1890ff;
+            z-index: 3;
+        }
+
+        .box {
+            margin-top: 50px;
+            padding-top: 10px;
+            flex-grow: 1;
+            background-color: #d6c394;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            z-index: 2;
+        }
+
+        .left, .center, .right {
+            margin: 0 5px;
+            border: 1px solid black;
+            z-index: 1;
+        }
+
+        .left, .right {
+            width: 300px;
+        }
+
+        .center {
+            width: 600px;
+            min-height: 1300px;
+        }
+
+        /*内容填充测试*/
+        .content {
+            height: 300px;
+            margin: 10px;
+            background-color: #d3d3d3;
+        }
+
+    </style>
+</head>
+<body>
+<header class="header">header</header>
+<div class="box">
+    <div class="left">
+        <div class="content">内容测试1</div>
+        <div class="content">内容测试</div>
+        <div class="content">内容测试</div>
+    </div>
+    <div class="center">
+        <div class="content">内容测试2</div>
+        <div class="content">内容测试</div>
+        <div class="content">内容测试</div>
+        <div class="content">内容测试</div>
+        <div class="content">内容测试</div>
+    </div>
+    <div class="right">
+        <div class="content">内容测试3</div>
+        <div class="content">内容测试</div>
+    </div>
+</div>
+</body>
+<script>
+  'use strict'
+  window.onload = function () {
+    let left = document.getElementsByClassName('left')[0]
+    let right = document.getElementsByClassName('right')[0]
+
+    const handleScroll = (e) => {
+      resetDOMBottom(left)
+      resetDOMBottom(right)
+    }
+    const resetDOMBottom = dom => {
+      let bottomHeight = window.innerHeight - (dom.offsetTop - window.scrollY) - dom.offsetHeight
+      if (bottomHeight > 0 && dom.offsetTop && window.innerHeight - 60 < dom.scrollHeight) {
+        dom.style.transform = `translateY(${bottomHeight + 'px'})`
+      } else {
+        dom.style.transform = `translateY(0)`
+      }
+
+      if (window.innerHeight - 60 > dom.scrollHeight) {
+        dom.style.transform = `translateY(${window.scrollY + 'px'})`
+      }
+    }
+    // 节流函数,性能优化
+    const throttle = (fn, delay = 50) => {
+      let flag = true
+      return (...args) => {
+        if (!flag) return
+        flag = false
+        setTimeout(() => {
+          fn.apply(this, args)
+          flag = true
+        }, delay)
+      }
+    }
+
+    // 假装144hz刷新率
+    window.addEventListener('scroll', throttle(handleScroll, 1000 / 144))
+  }
+</script>
+</html>

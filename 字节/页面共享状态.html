@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+<script>
+    // localStorage.setItem('name','macsu')
+    // sessionStorage.setItem('name','macsu')
+    window.onload = function(){
+      // document.cookie.onChanged.addListener(f)
+      Cookies.set('p1','15')
+      sessionStorage.setItem('i','2222')
+    }
+
+    function f () {
+      console.log(Cookies.get('p1'))
+    }
+</script>
+</html>

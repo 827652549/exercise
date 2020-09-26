@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        span{
+            font-size: 0px;
+            /*display: inline-block;*/
+            /*transform: scale(0.8);*/
+        }
+    </style>
+</head>
+<body>
+<div>{{{{{{}}}}}}<span>ddd</span>{{{{{}}}}}</div>
+<canvas id="canvas"></canvas>
+</body>
+
+<script>
+    let canvas = document.getElementById('canvas');
+    let context = canvas.getContext('2d');
+
+    context.font = '8px Arial';
+    context.fillText('你好abcd',20,20);
+</script>
+</html>

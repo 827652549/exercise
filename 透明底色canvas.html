@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            background-color: #ff5a34;
+        }
+        canvas{
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+</body>
+<script>
+    'use strict'
+    class Scheduler {
+      constructor(maxNum) {
+        this.taskList = [];
+        this.count = 0;
+        this.maxNum = maxNum;
+      }
+      async add(promiseCreator) {
+        if (this.count >= this.maxNum) {
+          await new Promise((resolve) => {
+            this.taskList.push(resolve)
+          })
+        }
+        this.count ++;
+        const result = await promiseCreator();
+        this.count --;
+        if (this.taskList.length > 0) {
+          this.taskList.shift()();
+        }
+        return result;
+      }
+    }
+
+
+    // timeout 是一个函数，接受一个参数time， 返回一个promise，在time事件之后才会resolve
+    const timeout = (time) => new Promise(resolve => {
+      setTimeout(resolve, time)
+    })
+
+    const scheduler = new Scheduler(2)
+
+    const addTask = (time, order) => {
+      // scheduler.add 传入一个函数，这个函数返回一个Promise
+      scheduler.add(() => timeout(time)).then(() => console.log(order))
+    }
+
+    addTask(1000, '1')
+    addTask(500, '2')
+    addTask(300, '3')
+    addTask(400, '4')
+
+</script>
+</html>
